@@ -3,7 +3,7 @@ A simple Gradio app that transcribes YouTube videos by extracting audio and usin
 
 <div align="center">   
 <video
-    src="https://github.com/danilotpnta/youtube-whisper/assets/70687643/1ecca6a8-ee29-4e84-b012-37a8fe3e05c0" loop autoplay muted playsinline></video>
+    src="assets/demo.m4v" loop autoplay muted playsinline></video>
 </div>
 
 ## Requirements
