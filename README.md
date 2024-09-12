@@ -1,10 +1,7 @@
 # Youtube-Whisper
 A simple Gradio app that transcribes YouTube videos by extracting audio and using OpenAI’s Whisper model for transcription. Paste a YouTube link and get the video’s audio transcribed into text.
 
-<div align="center">   
-<video
-    src="assets/demo.mp4" loop autoplay muted playsinline></video>
-</div>
+![Demo](assets/demo.gif)
 
 ## Requirements
 
