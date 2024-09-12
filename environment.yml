@@ -1,0 +1,12 @@
+name: yt-whisper
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - pip:
+      - gradio==3.16.2
+      - pytube==12.1.0
+      - openai-whisper==20230314
+      - torch==2.0.1
