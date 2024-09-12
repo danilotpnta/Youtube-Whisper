@@ -3,7 +3,7 @@ A simple Gradio app that transcribes YouTube videos by extracting audio and usin
 
 <div align="center">   
 <video
-    src="assets/demo.m4v" loop autoplay muted playsinline></video>
+    src="assets/demo.mp4" loop autoplay muted playsinline></video>
 </div>
 
 ## Requirements
