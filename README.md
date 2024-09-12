@@ -1,3 +1,15 @@
+---
+title: Youtube Whisper
+emoji: 🐢
+colorFrom: purple
+colorTo: pink
+sdk: gradio
+sdk_version: 4.44.0
+app_file: app.py
+pinned: false
+license: mit
+---
+
 # Youtube-Whisper
 A simple Gradio app that transcribes YouTube videos by extracting audio and using OpenAI’s Whisper model for transcription. Paste a YouTube link and get the video’s audio transcribed into text.
 
