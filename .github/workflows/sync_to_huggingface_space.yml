@@ -21,8 +21,8 @@ jobs:
       - name: Pull latest changes from Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git pull https://huggingface.co/spaces/<HF_USERNAME>/<SPACE_NAME> main
+        run: git pull https://huggingface.co/spaces/danilotpnta/Youtube-Whisper main
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://<HF_USERNAME>:$HF_TOKEN@huggingface.co/spaces/<HF_USERNAME>/<SPACE_NAME> main
+        run: git push https://danilotpnta:$HF_TOKEN@huggingface.co/spaces/danilotpnta/Youtube-Whisper main
