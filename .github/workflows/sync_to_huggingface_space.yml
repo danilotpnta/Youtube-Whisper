@@ -3,7 +3,6 @@ on:
   push:
     branches: [main]
 
-  # to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
@@ -14,14 +13,10 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
-      - name: Set up git user
-        run: |
-          git config --global user.email "your-email@example.com"
-          git config --global user.name "Your Name"
-      - name: Pull latest changes from Hugging Face
+      - name: Pull latest changes from Hugging Face with rebase
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git pull https://huggingface.co/spaces/danilotpnta/Youtube-Whisper main
+        run: git pull --rebase https://huggingface.co/spaces/danilotpnta/Youtube-Whisper main
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
