@@ -1,0 +1,7 @@
+numpy<2  # Pinning NumPy to a version below 2.0
+gradio==3.39.0  # Downgrade Gradio to work with Pydantic v1
+pytube==15.0.0
+git+https://github.com/openai/whisper.git  # Install Whisper from GitHub
+torch==2.0.1
+yt-dlp
+pydantic==1.10  # Use Pydantic v1 to avoid the incompatibility
