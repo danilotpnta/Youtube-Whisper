@@ -92,3 +92,7 @@ This will start a local server for the app, and you can access it by visiting th
    conda update conda
    pip install --upgrade pip
    ```
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
