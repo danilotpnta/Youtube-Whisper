@@ -14,7 +14,15 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
+      - name: Set up git user
+        run: |
+          git config --global user.email "your-email@example.com"
+          git config --global user.name "Your Name"
+      - name: Pull latest changes from Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: git pull https://huggingface.co/spaces/<HF_USERNAME>/<SPACE_NAME> main
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://danilotpnta:$HF_TOKEN@huggingface.co/spaces/danilotpnta/Youtube-Whisper main
+        run: git push https://<HF_USERNAME>:$HF_TOKEN@huggingface.co/spaces/<HF_USERNAME>/<SPACE_NAME> main
