@@ -13,10 +13,14 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
+      - name: Set git committer identity
+        run: |
+          git config --global user.email "danilotpnta@gmail.com"
+          git config --global user.name "danilotpnta"
       - name: Pull latest changes from Hugging Face with rebase
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git pull --rebase https://huggingface.co/spaces/danilotpnta/Youtube-Whisper main
+        run: git pull --rebase https://huggingface.co/spaces/danilotpnta/Youtube-Whisper main --reapply-cherry-picks
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
