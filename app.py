@@ -1,7 +1,15 @@
-import yt_dlp
 import whisper
 import gradio as gr
 import os
+
+import subprocess
+# Try to install yt-dlp if not available
+try:
+    subprocess.check_call(["pip", "install", "yt-dlp"])
+except subprocess.CalledProcessError as e:
+    print(f"Error installing yt-dlp: {e}")
+
+import yt_dlp
 
 # Function to download the audio and extract metadata from YouTube
 def download_video_info(url):
