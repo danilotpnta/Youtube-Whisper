@@ -3,8 +3,17 @@ import gradio as gr
 import os
 import asyncio
 
-# Import the async download function from your download script
+import subprocess
+
+# Ensure Playwright is installed and browsers are downloaded
+try:
+    subprocess.run(["pip", "install", "playwright"], check=True)
+    subprocess.run(["playwright", "install"], check=True)
+except subprocess.CalledProcessError as e:
+    print(f"Error during Playwright setup: {e}")
+
 from download_video import download_mp3_playwright
+
 
 # Function to download the audio, title, and thumbnail from YouTube
 async def download_video_info(url):
