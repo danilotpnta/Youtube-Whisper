@@ -5,12 +5,25 @@ import asyncio
 
 import subprocess
 
-# Ensure Playwright is installed and browsers are downloaded
-try:
-    subprocess.run(["pip", "install", "playwright"], check=True)
-    subprocess.run(["playwright", "install"], check=True)
-except subprocess.CalledProcessError as e:
-    print(f"Error during Playwright setup: {e}")
+# Ensure Playwright is installed and system dependencies are downloaded
+def install_playwright_deps():
+    try:
+        # Install Playwright via pip if not already installed
+        subprocess.run(["pip", "install", "playwright"], check=True)
+
+        # Install system dependencies for Playwright
+        subprocess.run(["playwright", "install-deps"], check=True)
+
+        # Install the Playwright browsers
+        subprocess.run(["playwright", "install"], check=True)
+
+        print("Playwright dependencies and browsers installed.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error during Playwright setup: {e}")
+        exit(1)
+
+# Call the function to install system dependencies and Playwright
+install_playwright_deps()
 
 from download_video import download_mp3_playwright
 
