@@ -11,5 +11,7 @@ dependencies:
       - pytube==15.0.0
       - git+https://github.com/openai/whisper.git
       - torch==2.0.1
-      - yt-dlp
-      - pydantic==1.10  # Use Pydantic v1 to avoid the incompatibility
+      - pydantic==1.10  # Use Pydantic v1 to avoid incompatibility issues
+      - BeautifulSoup4
+      - playwright  # Required for Playwright-based scraping and downloads
+      - requests  # Used for handling HTTP requests during downloads

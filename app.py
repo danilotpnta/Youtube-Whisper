@@ -1,35 +1,17 @@
 import whisper
 import gradio as gr
 import os
+import asyncio
 
-import subprocess
-# Try to install yt-dlp if not available
-try:
-    subprocess.check_call(["pip", "install", "yt-dlp"])
-except subprocess.CalledProcessError as e:
-    print(f"Error installing yt-dlp: {e}")
+# Import the async download function from your download script
+from download_video import download_mp3_playwright
 
-import yt_dlp
-
-# Function to download the audio and extract metadata from YouTube
-def download_video_info(url):
-    ydl_opts = {
-        'format': 'bestaudio/best',
-        'outtmpl': 'audio.%(ext)s',
-        'postprocessors': [{
-            'key': 'FFmpegExtractAudio',
-            'preferredcodec': 'mp3',
-            'preferredquality': '192',
-        }],
-    }
-
+# Function to download the audio, title, and thumbnail from YouTube
+async def download_video_info(url):
     try:
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            info = ydl.extract_info(url, download=False)  # Extract video info
-            title = info.get('title', 'Unknown Title')
-            thumbnail_url = info.get('thumbnail', '')
-            ydl.download([url])  # Download the audio
-        audio_file = "audio.mp3"
+        # Call the async function to download video and get title and thumbnail
+        title, thumbnail_url = await download_mp3_playwright(url)
+        audio_file = "downloaded_video.mp4"  # Path to the downloaded audio
         return audio_file, title, thumbnail_url
     except Exception as e:
         return None, None, str(e)
@@ -41,9 +23,9 @@ def transcribe_audio(audio_path, model_size="base"):
     return result['text']
 
 # Split logic: First fetch title and thumbnail, then transcribe
-def get_video_info_and_transcribe(youtube_url, model_size="base"):
+async def get_video_info_and_transcribe(youtube_url, model_size="base"):
     # Fetch title and thumbnail first
-    audio_path, title, thumbnail_url = download_video_info(youtube_url)
+    audio_path, title, thumbnail_url = await download_video_info(youtube_url)
     
     # If fetching video info fails
     if not audio_path or not os.path.exists(audio_path):
@@ -51,8 +33,13 @@ def get_video_info_and_transcribe(youtube_url, model_size="base"):
 
     # Show title and thumbnail to the user while the transcription is happening
     title_output = gr.update(value=title)
-    thumbnail_output = gr.update(value=thumbnail_url)
-
+    
+    # Show the thumbnail if available
+    if thumbnail_url:
+        thumbnail_output = gr.update(value=thumbnail_url)
+    else:
+        thumbnail_output = gr.update(visible=False)  # Hide if no thumbnail
+    
     # Start transcription
     transcription = transcribe_audio(audio_path, model_size)
 
