@@ -2,31 +2,34 @@ import whisper
 import gradio as gr
 import os
 import asyncio
-
 import subprocess
 
-# Ensure Playwright is installed and system dependencies are downloaded
-def install_playwright_deps():
+# Ensure Playwright is installed and browsers are downloaded
+def install_playwright():
     try:
         # Install Playwright via pip if not already installed
         subprocess.run(["pip", "install", "playwright"], check=True)
 
-        # Install system dependencies for Playwright
-        subprocess.run(["playwright", "install-deps"], check=True)
-
         # Install the Playwright browsers
         subprocess.run(["playwright", "install"], check=True)
 
-        print("Playwright dependencies and browsers installed.")
+        print("Playwright and browsers installed.")
     except subprocess.CalledProcessError as e:
         print(f"Error during Playwright setup: {e}")
         exit(1)
 
-# Call the function to install system dependencies and Playwright
-install_playwright_deps()
+# Call the function to install Playwright
+install_playwright()
 
 from download_video import download_mp3_playwright
 
+# Function to convert MP4 to MP3 using FFmpeg
+def convert_to_mp3(input_file, output_file):
+    command = ["ffmpeg", "-i", input_file, "-q:a", "0", "-map", "a", output_file]
+    try:
+        subprocess.run(command, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error converting {input_file} to {output_file}: {e}")
 
 # Function to download the audio, title, and thumbnail from YouTube
 async def download_video_info(url):
@@ -34,7 +37,10 @@ async def download_video_info(url):
         # Call the async function to download video and get title and thumbnail
         title, thumbnail_url = await download_mp3_playwright(url)
         audio_file = "downloaded_video.mp4"  # Path to the downloaded audio
-        return audio_file, title, thumbnail_url
+
+        # Convert MP4 to MP3 before passing to Whisper
+        convert_to_mp3(audio_file, "downloaded_audio.mp3")
+        return "downloaded_audio.mp3", title, thumbnail_url
     except Exception as e:
         return None, None, str(e)
 

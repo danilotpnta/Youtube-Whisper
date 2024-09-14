@@ -1,11 +1,9 @@
-import asyncio
 from playwright.async_api import async_playwright
-import requests
 
 async def download_mp3_playwright(youtube_url):
     async with async_playwright() as p:
         # Launch browser in headless mode
-        browser = await p.chromium.launch(headless=True)
+        browser = await p.chromium.launch(headless=True, args=['--no-sandbox'])
         page = await browser.new_page()
 
         # Open the YouTube video page
@@ -68,12 +66,3 @@ async def download_mp3_playwright(youtube_url):
 
         # Return the title and thumbnail for display
         return title, thumbnail_url
-
-# Call the async function
-async def main():
-    youtube_url = "https://youtu.be/MAZyQ-38b8M?si=q0dai-wF6FQz6MGN"
-    await download_mp3_playwright(youtube_url)
-
-# Run the asyncio loop
-if __name__ == "__main__":
-    asyncio.run(main())
