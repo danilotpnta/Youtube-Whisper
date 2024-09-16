@@ -5,8 +5,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning, module="torch")
 
-
-from download_video import download_mp3_selenium  # Assuming you saved your Selenium code in 'selenium_download.py'
+from download_video import download_mp3_selenium 
 
 # Function to download the audio, title, and thumbnail from YouTube
 def download_video_info(url):

@@ -1,8 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 import requests
-import time
 
 def download_mp3_selenium(youtube_url):
     # Set up the Selenium WebDriver
@@ -10,31 +13,40 @@ def download_mp3_selenium(youtube_url):
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument('--disable-dev-shm-usage')
+
+    # Use WebDriverManager to handle the ChromeDriver version
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+
     driver = webdriver.Chrome(options=options)
+
+    # Set up WebDriverWait (with a timeout of 10 seconds)
+    wait = WebDriverWait(driver, 10)
 
     # Open the YouTube video page
     driver.get(youtube_url)
-    time.sleep(2)  # Wait for the page to load
-
+    # Wait for the title to be available
+    wait.until(EC.title_contains("YouTube"))
+    
     # Scrape the title
     title = driver.title  # This gives you the video title
 
-    # Scrape the thumbnail (YouTube page has a meta tag for the thumbnail)
-    thumbnail_meta = driver.find_element(By.XPATH, "//meta[@property='og:image']")
+    # Wait for the thumbnail to load and scrape it
+    thumbnail_meta = wait.until(EC.presence_of_element_located((By.XPATH, "//meta[@property='og:image']")))
     thumbnail_url = thumbnail_meta.get_attribute('content')
 
     # Open the YouTube downloader site
     driver.get("https://yt1d.com/en/")
-    time.sleep(2)  # Wait for the page to load
+    # Wait until the page is loaded completely by checking an element presence
+    wait.until(EC.presence_of_element_located((By.ID, "txt-url")))
 
     # Input the YouTube URL into the downloader
     input_box = driver.find_element(By.ID, "txt-url")
     input_box.send_keys(youtube_url)
     input_box.send_keys(Keys.RETURN)
-    time.sleep(2)  # Wait for the download options to load
-
+    
     # Wait for the MP3 download button to appear
-    mp3_download_button = driver.find_element(By.CSS_SELECTOR, "button[data-ftype='mp3']")
+    mp3_download_button = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[data-ftype='mp3']")))
     onclick_attr = mp3_download_button.get_attribute("onclick")
 
     # Extract parameters from the JavaScript function call
@@ -42,11 +54,8 @@ def download_mp3_selenium(youtube_url):
     if len(params) >= 7:
         mp3_download_url = params[1]  # Extracted base download URL
 
-        # Wait for the JavaScript to modify the link
-        time.sleep(2)  # Allow time for the page to modify the link
-
-        # Get the final download URL after JavaScript modifications
-        final_link = driver.find_element(By.CSS_SELECTOR, "a[href*='googlevideo.com/videoplayback']")
+        # Wait for the final download URL to be available after JavaScript modifications
+        final_link = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "a[href*='googlevideo.com/videoplayback']")))
         mp3_download_url = final_link.get_attribute("href")
         print(f"Final MP3 Download URL: {mp3_download_url}")
 
