@@ -1,17 +1,3 @@
-import os
-
-# Install Chrome and dependencies
-os.system("apt-get update")
-os.system("apt-get install -y wget unzip")
-os.system("wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb")
-os.system("apt install -y ./google-chrome-stable_current_amd64.deb")
-
-# Set ChromeDriver path in the environment
-os.system("wget -N https://chromedriver.storage.googleapis.com/128.0.6613.137/chromedriver_linux64.zip -P /tmp/")
-os.system("unzip /tmp/chromedriver_linux64.zip -d /tmp/")
-os.system("mv /tmp/chromedriver /usr/local/bin/chromedriver")
-os.system("chmod +x /usr/local/bin/chromedriver")
-
 import whisper
 import gradio as gr
 import os

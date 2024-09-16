@@ -16,7 +16,9 @@ def download_mp3_selenium(youtube_url):
     options.add_argument('--disable-dev-shm-usage')
 
     # Use WebDriverManager to handle the ChromeDriver version
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    # Explicitly set the path to ChromeDriver
+    driver = webdriver.Chrome(service=Service("/usr/local/bin/chromedriver"), options=options)
 
     # driver = webdriver.Chrome(options=options)
 
