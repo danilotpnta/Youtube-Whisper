@@ -91,6 +91,11 @@ def download_mp3_selenium(youtube_url):
 
     # Check and print ChromeDriver logs
     log_file_path = '/tmp/chromedriver.log'
+    # Create a log file if it doesn't exist
+    if not os.path.exists(log_file_path):
+        with open(log_file_path, 'w') as log_file:
+            log_file.write("ChromeDriver log file created.")
+
     if os.path.exists(log_file_path):
         with open(log_file_path, 'r') as log_file:
             log_contents = log_file.read()
