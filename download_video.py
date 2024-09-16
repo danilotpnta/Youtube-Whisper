@@ -77,6 +77,10 @@ def download_mp3_selenium(youtube_url):
     # Close the browser
     driver.quit()
 
+    with open('/tmp/chromedriver.log', 'r') as log_file:
+        log_contents = log_file.read()
+        print(log_contents)
+
     # Return the title and thumbnail for display
     return title, thumbnail_url
 
