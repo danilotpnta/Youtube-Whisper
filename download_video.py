@@ -15,8 +15,10 @@ def download_mp3_selenium(youtube_url):
     options.add_argument('--disable-gpu')  # Disable GPU to ensure it runs in cloud environments
     options.add_argument('--verbose')
     options.add_argument('--log-path=/tmp/chromedriver.log')
-    options.add_argument("--window-size=1920x1080")
-    options.add_argument("--start-maximized")
+    options.add_argument(
+    "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.49 Safari/537.36"
+    
+)
 
     log_contents = ""  # Initialize log_contents
     driver = webdriver.Chrome(options=options)
