@@ -3,6 +3,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 import requests
 
@@ -12,8 +14,11 @@ def download_mp3_selenium(youtube_url):
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-gpu')  # Disable GPU to ensure it runs in cloud environments
 
-    driver = webdriver.Chrome(options=options)
+    # Automatically handle ChromeDriver version with WebDriverManager
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
 
     # Set up WebDriverWait (with a timeout of 10 seconds)
     wait = WebDriverWait(driver, 10)
