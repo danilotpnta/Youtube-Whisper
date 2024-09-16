@@ -15,9 +15,11 @@ def download_mp3_selenium(youtube_url):
     options.add_argument("--no-sandbox")
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')  # Disable GPU to ensure it runs in cloud environments
+    options.add_argument('--verbose')
+    options.add_argument('--log-path=/tmp/chromedriver.log')
 
     # Automatically handle ChromeDriver version with WebDriverManager
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="128.0.6613.137").install()), options=options)
 
 
     # Set up WebDriverWait (with a timeout of 10 seconds)
