@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+
 import requests
 
 def download_mp3_selenium(youtube_url):
@@ -17,8 +18,7 @@ def download_mp3_selenium(youtube_url):
     # Use WebDriverManager to handle the ChromeDriver version
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-
-    driver = webdriver.Chrome(options=options)
+    # driver = webdriver.Chrome(options=options)
 
     # Set up WebDriverWait (with a timeout of 10 seconds)
     wait = WebDriverWait(driver, 10)
