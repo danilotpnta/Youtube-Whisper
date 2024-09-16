@@ -3,8 +3,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
 import requests
 
@@ -18,9 +16,7 @@ def download_mp3_selenium(youtube_url):
     options.add_argument('--verbose')
     options.add_argument('--log-path=/tmp/chromedriver.log')
 
-    # Automatically handle ChromeDriver version with WebDriverManager
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="128.0.6613.137").install()), options=options)
-
+    driver = webdriver.Chrome(options=options)
 
     # Set up WebDriverWait (with a timeout of 10 seconds)
     wait = WebDriverWait(driver, 10)
