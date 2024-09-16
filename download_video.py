@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+import os
 import requests
 
 def download_mp3_selenium(youtube_url):
@@ -23,10 +23,12 @@ def download_mp3_selenium(youtube_url):
         print("Page title was '{}'".format(driver.title))
     except Exception as e:
         print(e)
-        
+
+    print(driver.capabilities['browserVersion'])
+    print(driver.capabilities['chrome']['chromedriverVersion'])
 
     # Set up WebDriverWait (with a timeout of 10 seconds)
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 20)
 
     # Open the YouTube video page
     driver.get(youtube_url)
@@ -84,12 +86,18 @@ def download_mp3_selenium(youtube_url):
     # Close the browser
     driver.quit()
 
-    with open('/tmp/chromedriver.log', 'r') as log_file:
-        log_contents = log_file.read()
-        print(log_contents)
+    # Check and print ChromeDriver logs
+    log_file_path = '/tmp/chromedriver.log'
+    if os.path.exists(log_file_path):
+        with open(log_file_path, 'r') as log_file:
+            log_contents = log_file.read()
+            print("ChromeDriver Log Contents:\n", log_contents)
+    else:
+        print("ChromeDriver log not found.")
+
 
     # Return the title and thumbnail for display
-    return title, thumbnail_url
+    return title, thumbnail_url, log_contents
 
 # Example usage:
 # youtube_url = "https://youtu.be/MAZyQ-38b8M?si=q0dai-wF6FQz6MGN"

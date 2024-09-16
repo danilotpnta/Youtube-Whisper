@@ -59,12 +59,14 @@ with gr.Blocks() as interface:
         thumbnail_output = gr.Image(label="Thumbnail", interactive=False, scale=1)
         transcription_output = gr.Textbox(label="Transcription", interactive=False, scale=1)
     
+    logs_output = gr.Textbox(label="ChromeDriver Logs")
+
     transcribe_button = gr.Button("Transcribe")
 
     transcribe_button.click(
         get_video_info_and_transcribe, 
         inputs=[youtube_url, model_size],
-        outputs=[title_output, thumbnail_output, transcription_output]
+        outputs=[title_output, thumbnail_output, transcription_output, logs_output]
     )
 
 # Launch the app
