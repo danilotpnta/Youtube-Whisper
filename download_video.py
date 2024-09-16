@@ -18,6 +18,13 @@ def download_mp3_selenium(youtube_url):
 
     driver = webdriver.Chrome(options=options)
 
+    try:
+        driver.get("https://www.google.com")
+        print("Page title was '{}'".format(driver.title))
+    except Exception as e:
+        print(e)
+        
+
     # Set up WebDriverWait (with a timeout of 10 seconds)
     wait = WebDriverWait(driver, 10)
 
