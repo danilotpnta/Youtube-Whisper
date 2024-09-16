@@ -9,12 +9,14 @@ import requests
 def download_mp3_selenium(youtube_url):
     # Set up the Selenium WebDriver
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    # options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')  # Disable GPU to ensure it runs in cloud environments
     options.add_argument('--verbose')
     options.add_argument('--log-path=/tmp/chromedriver.log')
+    options.add_argument("--window-size=1920x1080")
+    options.add_argument("--start-maximized")
 
     driver = webdriver.Chrome(options=options)
 
