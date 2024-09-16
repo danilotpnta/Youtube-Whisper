@@ -8,6 +8,7 @@
 # BeautifulSoup4
 # requests
 selenium
+webdriver-manager
 requests
 gradio
 openai-whisper @ git+https://github.com/openai/whisper.git
