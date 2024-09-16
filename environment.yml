@@ -1,18 +1,12 @@
-name: yt-whisper
+name: yt-whisper-2
 channels:
   - defaults
   - conda-forge
 dependencies:
   - python=3.9
   - pip
-  - numpy<2  # Pinning NumPy to a version below 2.0 to avoid compatibility issues
   - pip:
-      - gradio==3.39.0  # Downgrade Gradio to work with Pydantic v1
-      - pytube==15.0.0
-      - git+https://github.com/openai/whisper.git
-      - torch==2.0.1
-      # - yt-dlp
-      - pydantic==1.10  # Use Pydantic v1 to avoid the incompatibility
-      - BeautifulSoup4
-      - git+https://github.com/microsoft/playwright-python.git
-      - requests  # Used for handling HTTP requests during downloads
+      - selenium
+      - requests
+      - gradio
+      - openai-whisper @ git+https://github.com/openai/whisper.git

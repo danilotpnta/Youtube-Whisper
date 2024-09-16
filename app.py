@@ -1,46 +1,21 @@
 import whisper
 import gradio as gr
 import os
-import asyncio
-import subprocess
 
-# Ensure Playwright is installed and browsers are downloaded
-def install_playwright():
-    try:
-        # Install Playwright via pip if not already installed
-        subprocess.run(["pip", "install", "playwright"], check=True)
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning, module="torch")
 
-        # Install the Playwright browsers
-        subprocess.run(["playwright", "install"], check=True)
 
-        print("Playwright and browsers installed.")
-    except subprocess.CalledProcessError as e:
-        print(f"Error during Playwright setup: {e}")
-        exit(1)
-
-# Call the function to install Playwright
-install_playwright()
-
-from download_video import download_mp3_playwright
-
-# Function to convert MP4 to MP3 using FFmpeg
-def convert_to_mp3(input_file, output_file):
-    command = ["ffmpeg", "-i", input_file, "-q:a", "0", "-map", "a", output_file]
-    try:
-        subprocess.run(command, check=True)
-    except subprocess.CalledProcessError as e:
-        print(f"Error converting {input_file} to {output_file}: {e}")
+from download_video import download_mp3_selenium  # Assuming you saved your Selenium code in 'selenium_download.py'
 
 # Function to download the audio, title, and thumbnail from YouTube
-async def download_video_info(url):
+def download_video_info(url):
     try:
-        # Call the async function to download video and get title and thumbnail
-        title, thumbnail_url = await download_mp3_playwright(url)
-        audio_file = "downloaded_video.mp4"  # Path to the downloaded audio
+        # Call the function to download video and get title and thumbnail
+        title, thumbnail_url = download_mp3_selenium(url)
+        audio_file = "downloaded_video.mp4"  # Path to the downloaded audio (MP4)
 
-        # Convert MP4 to MP3 before passing to Whisper
-        convert_to_mp3(audio_file, "downloaded_audio.mp3")
-        return "downloaded_audio.mp3", title, thumbnail_url
+        return audio_file, title, thumbnail_url
     except Exception as e:
         return None, None, str(e)
 
@@ -51,9 +26,9 @@ def transcribe_audio(audio_path, model_size="base"):
     return result['text']
 
 # Split logic: First fetch title and thumbnail, then transcribe
-async def get_video_info_and_transcribe(youtube_url, model_size="base"):
+def get_video_info_and_transcribe(youtube_url, model_size="base"):
     # Fetch title and thumbnail first
-    audio_path, title, thumbnail_url = await download_video_info(youtube_url)
+    audio_path, title, thumbnail_url = download_video_info(youtube_url)
     
     # If fetching video info fails
     if not audio_path or not os.path.exists(audio_path):
