@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Install necessary dependencies including ffmpeg
+# Install necessary dependencies including ffmpeg and chromium
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
@@ -18,10 +18,9 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
-# Install pip and the required Python packages
+# Install pip dependencies from the requirements.txt
 RUN pip install --upgrade pip \
-    && pip install selenium requests gradio \
-    && pip install git+https://github.com/openai/whisper.git
+    && pip install -r requirements.txt
 
 # Set environment variables for Selenium
 ENV CHROME_BIN=/usr/bin/chromium
