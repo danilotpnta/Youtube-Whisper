@@ -3,7 +3,7 @@ title: Youtube Whisper
 emoji: 🐢
 colorFrom: purple
 colorTo: pink
-sdk: gradio
+sdk: docker
 sdk_version: 4.44.0
 app_file: app.py
 pinned: false
