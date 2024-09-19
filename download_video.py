@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -15,25 +16,17 @@ def download_mp3_selenium(youtube_url):
     options.add_argument('--disable-gpu')  # Disable GPU to ensure it runs in cloud environments
     options.add_argument('--verbose')
     options.add_argument('--log-path=/tmp/chromedriver.log')
-    options.add_argument(
-    "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.49 Safari/537.36"
-    
-)
 
     log_contents = ""  # Initialize log_contents
-    driver = webdriver.Chrome(options=options)
 
-    try:
-        driver.get("https://www.google.com")
-        print("Page title was '{}'".format(driver.title))
-    except Exception as e:
-        print(e)
+    # Use the Service class to specify the path to the ChromeDriver binary
+    service = Service(executable_path="/usr/bin/chromedriver")
 
-    print(driver.capabilities['browserVersion'])
-    print(driver.capabilities['chrome']['chromedriverVersion'])
+    # Pass the service and options to the WebDriver
+    driver = webdriver.Chrome(service=service, options=options)
 
     # Set up WebDriverWait (with a timeout of 10 seconds)
-    wait = WebDriverWait(driver, 20)
+    wait = WebDriverWait(driver, 10)
 
     # Open the YouTube video page
     driver.get(youtube_url)
