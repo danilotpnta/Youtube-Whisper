@@ -3,4 +3,4 @@ webdriver-manager
 requests
 gradio
 openai-whisper @ git+https://github.com/openai/whisper.git
-tqmd
+tqdm
