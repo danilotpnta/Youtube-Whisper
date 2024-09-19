@@ -16,6 +16,10 @@ def download_mp3_selenium(youtube_url):
     options.add_argument('--disable-gpu')  # Disable GPU to ensure it runs in cloud environments
     options.add_argument('--verbose')
     options.add_argument('--log-path=/tmp/chromedriver.log')
+    options.add_argument('--disable-software-rasterizer')  # Disable software rasterizer
+    options.add_argument('--remote-debugging-port=9222')  # Enable remote debugging
+    options = webdriver.ChromeOptions()
+
 
     log_contents = ""  # Initialize log_contents
 
