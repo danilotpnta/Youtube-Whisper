@@ -1,6 +1,0 @@
-selenium
-webdriver-manager
-requests
-gradio
-openai-whisper @ git+https://github.com/openai/whisper.git
-tqdm
