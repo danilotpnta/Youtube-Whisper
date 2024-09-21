@@ -14,23 +14,12 @@ def download_mp3_selenium(youtube_url):
     options.add_argument("--no-sandbox")
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')  # Disable GPU to ensure it runs in cloud environments
-    options.add_argument('--verbose')
-    options.add_argument('--log-path=/tmp/chromedriver.log')
-    options.add_argument('--disable-software-rasterizer')  # Disable software rasterizer
-    options.add_argument('--remote-debugging-port=9222')  # Enable remote debugging
-    options = webdriver.ChromeOptions()
-
 
     log_contents = ""  # Initialize log_contents
-
-    # Use the Service class to specify the path to the ChromeDriver binary
-    service = Service(executable_path="/usr/bin/chromedriver")
-
-    # Pass the service and options to the WebDriver
-    driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome(options=options)
 
     # Set up WebDriverWait (with a timeout of 10 seconds)
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 20)
 
     # Open the YouTube video page
     driver.get(youtube_url)
