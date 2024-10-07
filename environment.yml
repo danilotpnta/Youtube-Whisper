@@ -1,0 +1,13 @@
+name: yt-whisper
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pip
+  - pip:
+      - requests
+      - gradio
+      - openai-whisper @ git+https://github.com/openai/whisper.git
+      - yt_dlp
+      - tqdm
