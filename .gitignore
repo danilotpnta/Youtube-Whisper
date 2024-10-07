@@ -166,3 +166,4 @@ cython_debug/
 .DS_Store
 *.mp4
 *.m4v
+thumbnail.jpg
