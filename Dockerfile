@@ -1,34 +1,42 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+# Dockerfile for Youtube-Whisper
+# Production-ready Gradio application with audio processing
 
-# Set the working directory in the container
-WORKDIR /app
+FROM python:3.10-slim
 
-# Copy the current directory contents into the container at /app
-COPY . /app
-
-# Install necessary dependencies including ffmpeg
+# Install system dependencies
+# ffmpeg: Required for audio/video processing
+# curl: For health checks
 RUN apt-get update && apt-get install -y \
-    wget \
-    curl \
-    unzip \
-    git \
-    chromium \
-    chromium-driver \
     ffmpeg \
+    curl \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
-# Install pip and the required Python packages
-RUN pip install --upgrade pip \
-    && pip install selenium requests gradio \
-    && pip install git+https://github.com/openai/whisper.git
+# Create non-root user
+RUN useradd -m -u 1000 appuser && \
+    mkdir -p /app && \
+    chown -R appuser:appuser /app
 
-# Set environment variables for Selenium
-ENV CHROME_BIN=/usr/bin/chromium
-ENV CHROMEDRIVER_BIN=/usr/bin/chromedriver
+# Set working directory
+WORKDIR /app
 
-# Expose the port the app will run on
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code with correct ownership
+COPY --chown=appuser:appuser . .
+
+# Switch to non-root user
+USER appuser
+
+# Expose Gradio port
 EXPOSE 7860
 
-# Command to run the Gradio app
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:7860/ || exit 1
+
+# Run Gradio app
+# Gradio automatically binds to 0.0.0.0 by default
 CMD ["python", "app.py"]
